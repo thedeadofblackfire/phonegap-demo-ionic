@@ -1,11 +1,38 @@
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array or 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'ngRoute', 'ngAnimate', 'starter.services', 'starter.controllers'])
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'> 
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.1.0/pure-min.css">
+  <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  <title>wbyoko - Say Where</title>
+  <style type="text/css">
+    html { height: 100% }
+    body { height: 100%; margin: 0px; padding: 0px }
+    .google-map{width:100%; height:100%;}
+    .map-control{background-color: white; margin:1em; padding:.5em; border-radius: 1em; word-wrap: break-word;}
+  </style>
+</head>
+<body ng-app="mapComponentsApp">
 
-.directive('sayWhere', function ($compile) {
+  <div class="google-map" say-where="" latitude="43.074688" longitude="-89.384294"></div>
+
+  <script type="text/html" id="whereControl">
+    <form class="pure-u-1-4 pure-form pure-form-stacked map-control">
+      <fieldset>
+        <legend>Say Where</legend>
+        <label for="latitude">Latitude:</label>
+        <input id="latitude" class="pure-input-1" type="text" ng-model="latitude">
+        <label for="longitude">Longitude:</label>
+        <input id="longitude" class="pure-input-1" type="text" ng-model="longitude">
+      </fieldset>
+    </form>
+  </script>
+
+  <script type="text/javascript">
+    var mapApp = angular.module('mapComponentsApp', []);
+
+    mapApp.directive('sayWhere', function ($compile) {
       return {
         controller: function ($scope) {
           var map;
@@ -39,12 +66,11 @@ angular.module('starter', ['ionic', 'ngRoute', 'ngAnimate', 'starter.services', 
             map;
 
           // parsing latLong or setting default location
-          latitude = latitude && parseFloat(latitude, 10) || 33.6085353; //43.074688;
-          longitude = longitude && parseFloat(longitude, 10) || -117.928753; //-89.384294;
+          latitude = latitude && parseFloat(latitude, 10) || 43.074688;
+          longitude = longitude && parseFloat(longitude, 10) || -89.384294;
 
           mapOptions = {
-            zoom: 13,
-            //zoom: 8,
+            zoom: 8,
             disableDefaultUI: true,
             center: new google.maps.LatLng(latitude, longitude),
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -69,35 +95,7 @@ angular.module('starter', ['ionic', 'ngRoute', 'ngAnimate', 'starter.services', 
           google.maps.event.addListener(map, 'center_changed', centerChangedCallback(scope, map));
         }
       };
-    }) 
-    
-.config(function ($compileProvider){
-  // Needed for routing to work
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|file|tel|sms):/);
-})
-
-.config(function($routeProvider, $locationProvider) {
-
-  // Set up the initial routes that our app will respond to.
-  // These are then tied up to our nav router which animates and
-  // updates a navigation bar
-  $routeProvider.when('/home', {
-    templateUrl: 'templates/app.html',
-    controller: 'AppCtrl'
-  });
-
-  // if the url matches something like /pet/2 then this route
-  // will fire off the PetCtrl controller (controllers.js)
-  $routeProvider.when('/pet/:petId', {
-    templateUrl: 'templates/pet.html',
-    controller: 'PetCtrl'
-  });
-
-  // if none of the above routes are met, use this fallback
-  // which executes the 'AppCtrl' controller (controllers.js)
-  $routeProvider.otherwise({
-    redirectTo: '/home'
-  });
-
-});
-
+    });    
+  </script>
+</body>
+</html>
