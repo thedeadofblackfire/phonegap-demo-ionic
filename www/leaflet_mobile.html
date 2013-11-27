@@ -6,9 +6,9 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-	<link rel="stylesheet" href="css/leaflet.css" />
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
 	
-	<script src="js/leaflet.js"></script>
+	<script src="leaflet/leaflet.js"></script>
 
 	<style>
 		body {
@@ -22,7 +22,29 @@
 </head>
 <body>
 	<div id="map"></div>
-
+   <div id="print"></div>
+    	<script>
+var gl;
+ 
+function displayPosition(position) {
+  var p = document.getElementById("print");
+  p.innerHTML = "<table border='1'><tr><th>Timestamp</th><td>" + position.timestamp +
+  "<tr><th>Latitude (WGS84)</th><td>" + position.coords.latitude + " deg</td></tr>" +
+  "<tr><th>Longitude (WGS84)</th><td>" + position.coords.longitude + " deg</td></tr></table>";
+}
+ 
+function displayError(positionError) {
+  alert("Error");
+}
+ 
+gl = navigator.geolocation;
+ 
+if (gl) {
+  gl.getCurrentPosition(displayPosition, displayError);
+} else {
+  alert("Geolocation services are not supported by your web browser.");
+}
+</script>
 	<script>
 		var map = L.map('map');
 
