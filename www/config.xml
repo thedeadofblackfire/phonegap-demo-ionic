@@ -47,6 +47,7 @@
     <!-- Plugins can also be added here. -->
     
     <gap:plugin name="org.apache.cordova.device" />
+    <gap:plugin name="org.apache.cordova.geolocation" />
 
     
     <!--
